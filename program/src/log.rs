@@ -1,4 +1,5 @@
 use arrform::{arrform, ArrForm};
+use base64::{engine::general_purpose::STANDARD as BASE64_STANDARD, Engine};
 use serde::{Deserialize, Serialize};
 use solana_program::{
     msg,
@@ -149,14 +150,14 @@ pub fn encode_ray_log<T: Serialize>(log: T) {
     let bytes = bincode::serialize(&log).unwrap();
     let mut out_buf = Vec::new();
     out_buf.resize(bytes.len() * 4 / 3 + 4, 0);
-    let bytes_written = base64::encode_config_slice(bytes, base64::STANDARD, &mut out_buf);
+    let bytes_written = BASE64_STANDARD.encode_slice(bytes, &mut out_buf).unwrap();
     out_buf.resize(bytes_written, 0);
     let msg_str = unsafe { std::str::from_utf8_unchecked(&out_buf) };
     msg!(arrform!(LOG_SIZE, "ray_log: {}", msg_str).as_str());
 }
 
 pub fn decode_ray_log(log: &str) {
-    let bytes = base64::decode_config(log, base64::STANDARD).unwrap();
+    let bytes = BASE64_STANDARD.decode(log).unwrap();
     match LogType::from_u8(bytes[0]) {
         LogType::Init => {
             let log: InitLog = bincode::deserialize(&bytes).unwrap();
