@@ -1,6 +1,7 @@
 //! State transition types
 
 use crate::{error::AmmError, math::Calculator};
+use borsh::BorshDeserialize;
 use serum_dex::state::ToAlignedBytes;
 use solana_program::{
     account_info::AccountInfo,
@@ -455,7 +456,7 @@ fn validate_fraction(numerator: u64, denominator: u64) -> Result<(), AmmError> {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
+#[derive(BorshDeserialize, Clone, Copy, Debug, Default, PartialEq)]
 pub struct Fees {
     /// numerator of the min_separate
     pub min_separate_numerator: u64,
@@ -565,7 +566,7 @@ impl Pack for Fees {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
+#[derive(BorshDeserialize, Clone, Copy, Debug, Default, PartialEq)]
 pub struct StateData {
     /// delay to take pnl coin
     pub need_take_pnl_coin: u64,
@@ -619,7 +620,7 @@ impl StateData {
 
 #[cfg_attr(feature = "client", derive(Debug))]
 #[repr(C)]
-#[derive(Clone, Copy, Default, PartialEq)]
+#[derive(BorshDeserialize, Clone, Copy, Default, PartialEq)]
 pub struct AmmInfo {
     /// Initialized status.
     pub status: u64,
@@ -630,13 +631,13 @@ pub struct AmmInfo {
     /// token mint.
     pub nonce: u64,
     /// max order count
-    pub order_num: u64,
+    pub order_num: u64, // max_order
     /// within this range, 5 => 5% range
     pub depth: u64,
     /// coin decimal
-    pub coin_decimals: u64,
+    pub coin_decimals: u64, // base_decimals
     /// pc decimal
-    pub pc_decimals: u64,
+    pub pc_decimals: u64, // quote_decimals
     /// amm machine state
     pub state: u64,
     /// amm reset_flag
@@ -648,9 +649,9 @@ pub struct AmmInfo {
     /// amount wave numerator, sys_decimal_value as denominator
     pub amount_wave: u64,
     /// coinLotSize 1 -> 0.000001
-    pub coin_lot_size: u64,
+    pub coin_lot_size: u64, // base_lot_size
     /// pcLotSize 1 -> 0.000001
-    pub pc_lot_size: u64,
+    pub pc_lot_size: u64, // quote_lot_size
     /// min_cur_price: (2 * amm.order_num * amm.pc_lot_size) * max_price_multiplier
     pub min_price_multiplier: u64,
     /// max_cur_price: (2 * amm.order_num * amm.pc_lot_size) * max_price_multiplier
