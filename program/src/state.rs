@@ -206,6 +206,7 @@ impl TargetOrders {
     }
 }
 
+#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[repr(u64)]
 pub enum AmmStatus {
     Uninitialized = 0u64,

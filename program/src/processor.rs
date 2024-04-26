@@ -1135,6 +1135,7 @@ impl Processor {
             return Err(AmmError::InvalidFreezeAuthority.into());
         }
 
+        // NOTE: Liqudity calculation
         let liquidity = Calculator::to_u64(
             U128::from(amm_pc_vault.amount)
                 .checked_mul(amm_coin_vault.amount.into())
