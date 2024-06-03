@@ -2521,6 +2521,10 @@ impl Processor {
                     amm.nonce as u8,
                     swap_amount_out,
                 )?;
+
+                // swap_base_in
+                // Coin2PC | base -> quote | SELL
+
                 // update state_data data
                 amm.state_data.swap_coin_in_amount = amm
                     .state_data
@@ -2615,6 +2619,10 @@ impl Processor {
                     amm.nonce as u8,
                     swap_amount_out,
                 )?;
+
+                // swap_base_in
+                // PC2Coin | quote -> base | BUY
+
                 // update state_data data
                 amm.state_data.swap_pc_in_amount = amm
                     .state_data
@@ -2936,6 +2944,10 @@ impl Processor {
                     amm.nonce as u8,
                     swap.amount_out,
                 )?;
+
+                // swap_base_out
+                // Coin2PC | base -> quote | SELL
+
                 // update state_data data
                 amm.state_data.swap_coin_in_amount = amm
                     .state_data
@@ -3030,6 +3042,10 @@ impl Processor {
                     amm.nonce as u8,
                     swap.amount_out,
                 )?;
+
+                // swap_base_out
+                // PC2Coin | quote -> base | BUY
+
                 // update state_data data
                 amm.state_data.swap_pc_in_amount = amm
                     .state_data

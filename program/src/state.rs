@@ -2,6 +2,7 @@
 
 use crate::{error::AmmError, math::Calculator};
 use borsh::BorshDeserialize;
+use serde_repr::{Deserialize_repr, Serialize_repr};
 use serum_dex::state::ToAlignedBytes;
 use solana_program::{
     account_info::AccountInfo,
@@ -206,7 +207,7 @@ impl TargetOrders {
     }
 }
 
-#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[derive(Copy, Clone, Debug, Deserialize_repr, Eq, PartialEq, Serialize_repr)]
 #[repr(u64)]
 pub enum AmmStatus {
     Uninitialized = 0u64,
